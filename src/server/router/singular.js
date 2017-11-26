@@ -1,6 +1,7 @@
 const express = require('express')
 const write = require('./write')
 const getFullURL = require('./get-full-url')
+const getExistingAccessHeader = require('./get-existing-access-header')
 const delay = require('./delay')
 
 module.exports = (db, name) => {
@@ -16,7 +17,7 @@ module.exports = (db, name) => {
     db.set(name, req.body).value()
     res.locals.data = db.get(name).value()
 
-    res.setHeader('Access-Control-Expose-Headers', 'Location')
+    res.setHeader('Access-Control-Expose-Headers', getExistingAccessHeader(res))
     res.location(`${getFullURL(req)}`)
 
     res.status(201)

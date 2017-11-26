@@ -3,6 +3,7 @@ const _ = require('lodash')
 const pluralize = require('pluralize')
 const write = require('./write')
 const getFullURL = require('./get-full-url')
+const getExistingAccessHeader = require('./get-existing-access-header')
 const utils = require('../utils')
 const delay = require('./delay')
 
@@ -260,7 +261,7 @@ module.exports = (db, name, opts) => {
       .insert(req.body)
       .value()
 
-    res.setHeader('Access-Control-Expose-Headers', 'Location')
+    res.setHeader('Access-Control-Expose-Headers', getExistingAccessHeader(res))
     res.location(`${getFullURL(req)}/${resource.id}`)
 
     res.status(201)
